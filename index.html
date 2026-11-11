@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#06060d"><link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><title>Case File: Fitness Detective</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#06060d;--ink:#e9edf5;--txt:#e9edf5;--mute:#8d97aa;--red:#ff5d6c;--brass:#9b8cff;--ok:#3ddc97;--cyan:#22e4ff;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;color:var(--txt);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:16px;line-height:1.5;background:radial-gradient(900px 500px at 85% -10%,rgba(76,201,240,.16),transparent 60%),radial-gradient(800px 500px at -10% 20%,rgba(139,123,255,.13),transparent 60%),var(--bg)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;background:radial-gradient(circle 200px at var(--mx,50%) var(--my,25%),rgba(139,123,255,.08),transparent),radial-gradient(circle 340px at var(--mx,50%) var(--my,25%),transparent 0,rgba(3,5,10,.4) 100%)}
+h1,h2,h3,.tw{font-family:'Sora',system-ui,sans-serif;font-weight:400}
+h2{font-size:24px;margin:0 0 12px}
+.wrap{max-width:880px;margin:0 auto;padding:18px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.btn{background:linear-gradient(135deg,#b4a7ff,#6a4cff);color:#ffffff;border:0;padding:10px 20px;border-radius:999px;font-weight:700;box-shadow:0 6px 20px rgba(106,76,255,.28);transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(106,76,255,.45)}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--brass);box-shadow:none}
+input,select{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--line);padding:10px 12px;border-radius:12px;width:100%;transition:border-color .2s,background .2s}
+input:focus{border-color:var(--brass);background:rgba(255,255,255,.1)}
+input[type=checkbox]{accent-color:var(--ok)}
+label{display:block;margin:12px 0 4px;font-size:14px;color:var(--mute)}
+.folder{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.note{font-size:14px;color:var(--mute)}
+.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);padding:2px 12px;border-radius:6px;transform:rotate(-6deg);font-family:'JetBrains Mono',ui-monospace,monospace}
+.stamp.ok{border-color:var(--ok);color:var(--ok)}
+#login{max-width:450px;margin:5vh auto 0}
+#login h1{font-size:36px;margin:6px 0;line-height:1.1;background:linear-gradient(90deg,#fff,var(--brass));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lens{font-size:54px;display:inline-block;margin-left:14px;animation:flo 3s ease-in-out infinite}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.top h1{margin:0;font-size:26px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip,.badge{border:1px solid var(--line);background:var(--glass);padding:5px 14px;border-radius:999px;font-size:14px}
+.badge{color:var(--brass);border-color:rgba(139,123,255,.5);font-family:'JetBrains Mono',ui-monospace,monospace}
+.tabs{display:flex;gap:6px;margin:6px 0 14px;overflow-x:auto;padding-bottom:4px}
+.tab{background:var(--glass);color:var(--mute);border:1px solid var(--line);padding:9px 18px;border-radius:999px;white-space:nowrap;transition:all .25s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected=true]{background:linear-gradient(135deg,#b4a7ff,#6a4cff);color:#ffffff;border-color:transparent;font-weight:700;box-shadow:0 6px 18px rgba(106,76,255,.3)}
+.enter{animation:enter .5s cubic-bezier(.2,.8,.2,1)}
+.rings{display:flex;gap:18px;justify-content:space-around;flex-wrap:wrap;margin:6px 0 18px}
+.rw{display:flex;align-items:center;gap:10px;font-size:15px}
+.rw small{color:var(--mute)}
+.ring .bg,.rw .bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:9}
+.rw .p{fill:none;stroke-width:9;stroke-linecap:round;stroke-dashoffset:var(--o);animation:rg 1.2s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 6px currentColor)}
+.rt{fill:var(--ink);font:700 26px 'Plus Jakarta Sans',sans-serif}
+.row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:end}
+@media(max-width:640px){.row{grid-template-columns:1fr 1fr}.row>*:first-child{grid-column:1/-1}}
+.item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);animation:slide .35s both}
+.item .g{flex:1}
+.item.done .g{opacity:.55;text-decoration:line-through;text-decoration-color:var(--ok);text-decoration-thickness:2px}
+.x{background:none;border:0;color:var(--red);font-size:22px;transition:transform .2s}
+.x:hover{transform:rotate(90deg)}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin:6px 0 12px}
+.stats b{font-size:32px;font-weight:700;display:block;line-height:1.1;color:var(--brass)}
+.hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin:10px 0}
+.hr{text-align:center;padding:6px 0;font-size:14px;border-radius:10px;border:1px solid var(--line);color:var(--mute)}
+.hr.y{background:linear-gradient(135deg,#4cc9f0,#2b7fd6);color:#04121c;border-color:transparent;font-weight:700}
+.hr.n{background:rgba(255,93,108,.14);border-color:rgba(255,93,108,.5);color:var(--red)}
+.alert{background:linear-gradient(90deg,#ff5d6c,#d63a52);color:#fff;padding:10px 16px;border-radius:14px;margin-bottom:12px;font-weight:700;animation:pulse 1.8s infinite}
+.glasses{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.gl{width:28px;height:40px;border:2px solid var(--mute);border-radius:4px 4px 12px 12px}
+.gl.f{background:linear-gradient(#4cc9f0,#2b7fd6);border-color:var(--cyan);transform-origin:bottom;animation:fillup .7s cubic-bezier(.2,.8,.2,1)}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;margin-top:14px}
+.d{text-align:center;padding:8px 0;font-size:14px;font-weight:700;border-radius:12px;border:1px solid var(--line);animation:pop .45s both;animation-delay:calc(var(--i)*22ms)}
+.d.s{background:linear-gradient(135deg,#3ddc97,#1fa56f);color:#032014;border-color:transparent}
+.d.f{background:rgba(255,93,108,.2);border-color:var(--red);color:var(--red)}
+.d.t{border:2px solid var(--brass);box-shadow:0 0 14px rgba(139,123,255,.6)}
+.d.u{opacity:.45}
+.bar{height:12px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),var(--cyan));border-radius:6px;animation:grow 1.2s cubic-bezier(.2,.8,.2,1)}
+svg{max-width:100%}
+@keyframes enter{from{opacity:0;transform:translateY(16px) scale(.98)}}
+@keyframes rg{from{stroke-dashoffset:var(--c)}}
+@keyframes slide{from{opacity:0;transform:translateX(-14px)}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+@keyframes fillup{from{transform:scaleY(0)}}
+@keyframes grow{from{width:0}}
+@keyframes flo{50%{transform:translateY(-8px) rotate(-8deg)}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(255,93,108,.25)}}
+@keyframes st{from{transform:rotate(-6deg) scale(2.6);opacity:0}}
+.stamp{animation:st .5s cubic-bezier(.3,1.6,.5,1)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+textarea{width:100%;min-height:130px;background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px;resize:vertical;font:inherit}
+textarea:focus{border-color:var(--brass);outline:none}
+.who{display:flex;align-items:center;gap:12px}
+.av{width:var(--s,46px);height:var(--s,46px);border-radius:50%;object-fit:cover;background:linear-gradient(135deg,var(--brass),#4a35c9);display:grid;place-items:center;font-weight:700;color:#ffffff;border:2px solid var(--brass);font-size:calc(var(--s,46px)*.45);flex:none}
+.brief{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--brass);overflow:hidden;white-space:nowrap;max-width:100%;width:0;border-right:2px solid var(--brass);margin:0 0 14px;animation:type 2.2s steps(var(--n)) .2s forwards,blink .8s step-end infinite}
+.stake{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 16px;margin-bottom:14px;border:1px dashed var(--line);border-radius:16px}
+.clock{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:38px;color:var(--cyan);text-shadow:0 0 14px rgba(76,201,240,.6);min-width:110px}
+.btn.on{background:linear-gradient(135deg,#ff8a95,#ff5d6c);color:#fff;animation:pulse 1.6s infinite}
+.idcard{position:relative;overflow:hidden;display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding:20px;border-radius:22px;border:1px solid rgba(139,123,255,.55);background:linear-gradient(135deg,rgba(139,123,255,.14),rgba(76,201,240,.08));margin-bottom:16px}
+.idcard::after{content:"";position:absolute;left:0;right:0;height:70px;top:-70px;background:linear-gradient(transparent,rgba(76,201,240,.2),transparent);animation:scan 3.6s linear infinite;pointer-events:none}
+.idcard h3{font-size:26px;margin:0}
+.idn{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:30px;letter-spacing:.14em;color:var(--brass);text-shadow:0 0 16px rgba(139,123,255,.5)}
+.medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0 18px}
+.medal{padding:14px 10px;text-align:center;border:1px solid rgba(139,123,255,.5);border-radius:18px;background:var(--glass);animation:pop .45s both;animation-delay:calc(var(--i)*70ms)}
+.medal .e{font-size:34px;display:block}
+.medal b{display:block;font-size:15px}
+.medal small{color:var(--mute);font-size:12px}
+.medal.lock{filter:grayscale(1);opacity:.4;border-color:var(--line)}
+.wk{display:flex;gap:10px;align-items:flex-end;height:140px;margin:8px 0 18px}
+.wk .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:12px;color:var(--mute);gap:3px}
+.wk i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(var(--brass),#6a4cff);transform-origin:bottom;animation:grow2 .8s both;animation-delay:calc(var(--i)*70ms)}
+.entry{position:relative;padding:12px 16px;border-left:3px solid var(--brass);background:var(--glass);border-radius:4px 14px 14px 4px;margin-top:10px;animation:slide .35s both}
+.entry p{margin:4px 0 0}
+.pf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+@keyframes type{to{width:calc(var(--n)*1ch)}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes grow2{from{transform:scaleY(0)}}
+@keyframes scan{to{top:100%}}
+h1,h2,h3{letter-spacing:-.02em;font-weight:700}
+.stats b,.rt{font-family:'Sora',sans-serif}
+.tab,.btn{letter-spacing:.01em}
+.brief{font-size:15px}
+.cl{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow-y:auto;padding:4px;margin-bottom:12px}
+.msg{max-width:85%;padding:10px 14px;border-radius:16px;white-space:pre-wrap;animation:slide .3s both}
+.msg.a{background:var(--glass);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.u{background:linear-gradient(135deg,#b4a7ff,#6a4cff);color:#ffffff;border-bottom-right-radius:4px;align-self:flex-end}
+.sug{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.send{display:flex;gap:8px}
+button.chip{color:var(--ink);cursor:pointer;font:inherit;font-size:14px;transition:border-color .2s}
+button.chip:hover{border-color:var(--brass)}
+.dots::after{content:"";animation:dt 1.2s steps(4) infinite}
+@keyframes dt{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;filter:blur(30px);background:radial-gradient(circle at 20% 30%,rgba(139,123,255,.2),transparent 40%),radial-gradient(circle at 80% 20%,rgba(76,201,240,.2),transparent 40%),radial-gradient(circle at 60% 85%,rgba(255,93,108,.14),transparent 40%);animation:aur 16s ease-in-out infinite alternate}
+.cf{position:fixed;top:-16px;width:9px;height:15px;z-index:50;pointer-events:none;border-radius:2px;animation:cf 2s ease-in forwards}
+.shake{animation:shake .4s}
+.lockc{text-align:left}
+.folder{transition:transform .3s,box-shadow .3s}
+.tab:active{transform:scale(.95)}
+@keyframes aur{to{transform:translate(4%,3%) rotate(8deg) scale(1.12)}}
+@keyframes cf{to{transform:translate(var(--dx),108vh) rotate(720deg)}}
+@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+
+.wrap{padding-bottom:130px}
+.btn{background:linear-gradient(180deg,#9a87ff,#6a4cff);color:#fff;box-shadow:0 6px 0 #3b25b5,0 14px 26px rgba(106,76,255,.45),inset 0 1px 0 rgba(255,255,255,.45);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #3b25b5,0 18px 30px rgba(106,76,255,.55),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #3b25b5,0 4px 10px rgba(106,76,255,.4)}
+.btn.on{background:linear-gradient(180deg,#ff8a95,#ff4d6d);box-shadow:0 6px 0 #a3203a,0 14px 26px rgba(255,77,109,.4)}
+.btn.ghost,.btn.ghost:hover,.btn.ghost:active{background:transparent;box-shadow:none;transform:none;color:var(--ink)}
+.folder{box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 30px 80px rgba(0,0,0,.55)}
+.tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;margin:0;padding:8px;gap:2px;max-width:calc(100vw - 16px);background:rgba(16,14,32,.74);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 9px;border-radius:20px;background:transparent;border:0;color:var(--mute);min-width:52px;box-shadow:none}
+.tab .ic{font-size:22px;line-height:1.2;transition:transform .25s cubic-bezier(.3,1.6,.5,1);filter:grayscale(.7)}
+.tab .lb{font-size:10px;font-weight:700}
+.tab:hover .ic{transform:translateY(-4px) scale(1.2)}
+.tab[aria-selected=true]{background:linear-gradient(180deg,rgba(154,135,255,.38),rgba(106,76,255,.22));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 0 18px rgba(139,123,255,.5)}
+.tab[aria-selected=true] .ic{transform:translateY(-3px) scale(1.18);filter:none}
+.orb{position:fixed;border-radius:50%;z-index:-1;pointer-events:none;background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.85),var(--c) 35%,rgba(0,0,0,.65) 100%);box-shadow:0 30px 60px rgba(0,0,0,.5),inset -12px -16px 30px rgba(0,0,0,.45);opacity:.8;animation:orb 9s ease-in-out infinite alternate;translate:calc(var(--px,0)*var(--d)*1px) calc(var(--py,0)*var(--d)*1px)}
+.scene{perspective:700px;display:flex;justify-content:center;margin:10px 0 22px}
+.cube{width:90px;height:90px;position:relative;transform-style:preserve-3d;animation:spin 10s linear infinite}
+.cube em{position:absolute;inset:0;display:grid;place-items:center;font-size:40px;font-style:normal;background:rgba(139,123,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:14px;box-shadow:inset 0 0 26px rgba(139,123,255,.5)}
+.f1{transform:translateZ(45px)}.f2{transform:rotateY(90deg) translateZ(45px)}.f3{transform:rotateY(180deg) translateZ(45px)}.f4{transform:rotateY(-90deg) translateZ(45px)}.f5{transform:rotateX(90deg) translateZ(45px)}.f6{transform:rotateX(-90deg) translateZ(45px)}
+.idcard,.medal,.stake,.bmiCard,.fc,#login{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s}
+.idcard{background:linear-gradient(135deg,rgba(139,123,255,.28),rgba(34,228,255,.12),rgba(255,79,216,.16));border-color:rgba(139,123,255,.6)}
+.lockc .av{box-shadow:0 0 0 6px rgba(139,123,255,.25),0 0 40px rgba(139,123,255,.6);animation:ring 2.4s ease-in-out infinite}
+.str{height:6px;background:rgba(255,255,255,.1);border-radius:4px;margin:6px 0 2px;overflow:hidden}
+.str i{display:block;height:100%;width:0;transition:width .3s,background .3s}
+.chk{display:flex;gap:8px;align-items:center;margin:10px 0 0}
+.xp{height:12px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-top:12px}
+.xp i{display:block;height:100%;background:linear-gradient(90deg,#8b7bff,#22e4ff,#ff4fd8,#8b7bff);background-size:200%;animation:grow 1.2s both,shine 3s linear infinite}
+.gz{display:block;margin:6px auto;max-width:340px;width:100%}
+.bnum{font:700 64px/1 'Sora',sans-serif;text-align:center;text-shadow:0 0 30px currentColor;margin-top:4px}
+.blv{display:block;width:max-content;margin:10px auto;padding:4px 18px;border-radius:999px;color:#06060d;font-weight:700}
+.lvls{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lv{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--c);color:var(--c);opacity:.6;transition:transform .3s}
+.lv.now{opacity:1;background:var(--c);color:#06060d;font-weight:700;box-shadow:0 0 18px var(--c);transform:scale(1.08)}
+@keyframes orb{to{transform:translateY(-28px) scale(1.06)}}
+@keyframes spin{from{transform:rotateX(-20deg) rotateY(0)}to{transform:rotateX(-20deg) rotateY(360deg)}}
+@keyframes ring{50%{box-shadow:0 0 0 14px rgba(139,123,255,.08),0 0 60px rgba(139,123,255,.85)}}
+@keyframes shine{to{background-position:200% 0}}
+@keyframes fade{from{opacity:0}}
+
+.ico{display:block;flex:none}
+.tab .ic{display:flex;filter:none}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip .ico{color:#ffb347}
+.medal .e{display:grid;place-items:center;color:#a99bff;margin-bottom:6px;font-size:0}
+.medal.lock .e{color:var(--mute)}
+.cube em{color:#fff}
+.hero{text-align:center;padding:10px 0 8px}
+.tag{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--glass);font-size:13px;animation:slide .5s both}
+.tag .ico{color:var(--ok)}
+.hero h1{font-size:clamp(32px,8vw,58px);line-height:1.05;margin:8px 0 14px;animation:enter .7s both}
+.gt{background:linear-gradient(90deg,#9a87ff,#22e4ff,#ff4fd8,#9a87ff);background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+.sub{max-width:560px;margin:0 auto 24px;color:var(--mute);font-size:17px}
+.btn.big{padding:14px 30px;font-size:17px;display:inline-flex;align-items:center;gap:10px}
+.sh{text-align:center;margin:40px 0 16px;font-size:26px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.fc{padding:18px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);animation:pop .5s both;animation-delay:calc(var(--i)*70ms)}
+.fc h3{margin:14px 0 4px;font-size:18px}
+.fc p{margin:0;color:var(--mute);font-size:14px}
+.ib{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#a99bff,#5b3df5);box-shadow:0 6px 0 -1px #2f1c96,0 14px 24px rgba(106,76,255,.4),inset 0 1px 0 rgba(255,255,255,.45)}
+.steps{display:grid;gap:12px}
+.st{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:18px;background:var(--glass);border:1px solid var(--line);animation:slide .5s both;animation-delay:calc(var(--i)*120ms)}
+.sn{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 16px 'Sora',sans-serif;background:linear-gradient(145deg,#22e4ff,#6a4cff);color:#fff}
+.st b{display:block;font-family:'Sora',sans-serif}
+.st span{color:var(--mute);font-size:14px}
+.back{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--mute);text-decoration:none;margin:0 12px 10px 0}
+.back:hover{color:var(--ink)}
+
+.lib{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}
+.lib .chip{padding:7px 12px;transition:transform .15s,border-color .2s,background .2s}
+.lib .chip:hover{transform:translateY(-3px);border-color:var(--brass);background:rgba(139,123,255,.18)}
+.lib .chip:active{transform:scale(.95)}
+.lib .chip small{color:var(--mute);font-size:12px}
+.lib .chip .ico{color:var(--brass)}
+.wk{gap:18px;padding:0 14px 0 4px;border-bottom:2px solid rgba(255,255,255,.12);height:150px}
+.wk i{width:62%;border-radius:2px;background:linear-gradient(#b4a7ff,#6a4cff);position:relative;box-shadow:0 16px 18px -8px rgba(106,76,255,.7);transition:filter .2s}
+.wk i::before{content:"";position:absolute;left:0;top:-9px;width:100%;height:9px;background:#d6cdff;transform:skewX(-45deg);transform-origin:bottom left}
+.wk i::after{content:"";position:absolute;left:100%;top:0;width:9px;height:100%;background:#4a35c9;transform:skewY(-45deg);transform-origin:top left}
+.wk i.td{background:linear-gradient(#7ff0ff,#22a7d6);box-shadow:0 16px 18px -8px rgba(34,228,255,.7)}
+.wk i.td::before{background:#c8f8ff}
+.wk i.td::after{background:#137a9c}
+.wk .col:hover i{filter:brightness(1.25)}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--line);color:var(--ink);padding:7px 14px;border-radius:999px;margin-bottom:10px;transition:transform .2s,border-color .2s;animation:slide .35s both}
+.backbtn:hover{transform:translateX(-3px);border-color:var(--brass)}
+</style></head>
+<body><div class="wrap" id="app"></div>
+<script>
+var KEY='detective-fit-v1',S=null,tab='today';
+function load(){try{var r=localStorage.getItem(KEY),o=r?JSON.parse(r):null;if(o&&!o.user&&o.saved){o.user=o.saved;o.saved=null}return o}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function ds(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x}
+function today(){return ds(new Date())}
+function log(d){S.logs[d]=S.logs[d]||{ex:[],water:[]};return S.logs[d]}
+function mins(d){var l=S.logs[d];return l?l.ex.filter(function(e){return e.done}).reduce(function(a,e){return a+e.min},0):0}
+function glasses(d){var l=S.logs[d];return l?l.water.length:0}
+function genId(){var n=8+Math.floor(Math.random()*3),s=String(1+Math.floor(Math.random()*9));while(s.length<n)s+=Math.floor(Math.random()*10);return s}
+
+function render(anim){
+ S=S||load();
+ var a=document.getElementById('app');
+ if(!S||!S.user){a.innerHTML=LAND?landHTML():loginHTML();return}if(!OPEN){a.innerHTML=lockHTML();return}
+ S.user.joined=S.user.joined||today();var t=[['today','Today’s Case'],['water','Water Watch'],['weight','Weight Ledger'],['mission','Mission'],['notes','Notebook'],['coach','AI Coach'],['bmi','BMI'],['profile','Profile']];
+ a.innerHTML='<div class="top"><div class="who">'+av(48)+'<div><h1 style="margin:0;font-size:26px">Case File: '+esc(S.user.name)+'</h1><span class="note" style="color:var(--mute)">'+esc(S.user.email)+'</span></div></div><div class="chips"><span class="chip">'+ico('flame',15)+' '+streak()+' day streak</span><span class="chip">Rank: '+rank(streak())+'</span><span class="badge">ID '+S.user.id+'</span></div></div>'+
+ '<div class="tabs" role="tablist">'+t.map(function(x){return '<button class="tab" role="tab" aria-selected="'+(tab===x[0])+'" onclick="go(\''+x[0]+'\')"><span class="ic">'+IC[x[0]]+'</span><span class="lb">'+SH[x[0]]+'</span></button>'}).join('')+'</div>'+
+ (tab!=='today'?'<button class="backbtn" onclick="goBack()">'+ico('back',16)+' Back</button>':'')+'<div class="folder panel'+(anim?' enter':'')+'">'+({today:todayHTML,water:waterHTML,weight:weightHTML,mission:missionHTML,notes:notesHTML,coach:coachHTML,bmi:bmiHTML,profile:profileHTML}[tab])()+'</div>'+
+ '<p style="text-align:right"><button class="btn ghost" onclick="lock()">Lock case file</button></p>';
+}
+function go(t){PREV=tab;tab=t;if(location.hash.slice(1)!==t)location.hash=t;render(true)}
+function loginHTML(){return '<div id="login" class="folder"><a href="#" class="back" onclick="backLand();return false">'+ico('info',16)+' About this app</a><span class="stamp">Confidential</span>'+cube()+'<h1>Fitness Detective Agency</h1><p class="note">Open your case file. Log what you did, what you drank and what you weigh. The agency tells you if the mission is solved.</p>'+
+ '<label>Name</label><input id="n" autocomplete="name">'+
+ '<label>Gmail address</label><input id="e" type="email" placeholder="you@gmail.com" autocomplete="email">'+
+ '<label>Phone number</label><input id="p" type="tel" autocomplete="tel">'+
+ '<label>Age</label><input id="a" type="number" min="5" max="110">'+'<label>Create a password (6+ characters)</label><input id="pw1" type="password" autocomplete="new-password" oninput="stre(this)"><div class="str"><i id="sb"></i></div><small class="note" id="sl"></small><label class="chk"><input type="checkbox" onchange="showpw(this)" style="width:auto"> Show passwords</label><label>Repeat password</label><input id="pw2" type="password" autocomplete="new-password">'+
+ '<p id="err" style="color:var(--red);min-height:1.4em;margin:8px 0"></p>'+
+ '<button class="btn" onclick="signup2()">Get my Detective ID</button>'+
+ '<p class="note">Your data stays in this browser on this device. You will enter your password every time you open the app.</p></div>'}
+function signup(){
+ var n=v('n'),e=v('e').toLowerCase(),p=v('p'),g=parseInt(v('a'),10),er='';
+ if(!n)er='Enter your name.';
+ else if(!/^[^\s@]+@gmail\.com$/.test(e))er='Enter a valid Gmail address (name@gmail.com).';
+ else if(!/^[+0-9\s-]{7,16}$/.test(p))er='Enter a valid phone number.';
+ else if(!(g>=5&&g<=110))er='Enter your age.';
+ if(er){document.getElementById('err').textContent=er;return}
+ var old=load();
+ if(old&&((old.user&&old.user.email===e)||(old.saved&&old.saved.email===e))){S=old;S.user=old.user||old.saved}
+ else S={user:{name:n,email:e,phone:p,age:g,id:genId(),joined:today()},logs:{},weights:[],notes:{},mission:null};
+ save();render();
+}
+function v(i){return document.getElementById(i).value.trim()}
+function logout(){S.saved=S.user;S.user=null;save();S=null;render()}
+</script>
+<script>
+function todayHTML(){
+ var l=log(today()),tm=S.mission?S.mission.min:30,tg=S.mission?S.mission.gl:(S.waterGoal||8),h='<h2>Today’s evidence</h2>'+briefHTML()+'<div class="rings">'+ring(mins(today()),tm,'Minutes','of '+tm+' target','#8b7bff')+ring(glasses(today()),tg,'Glasses','of '+tg+' target','#4cc9f0')+ring(l.ex.filter(function(e){return e.done}).length,l.ex.length,'Exercises','done today','#3ddc97')+'</div><div class="stats" style="display:none"><div><b>'+mins(today())+'</b>minutes done</div><div><b>'+l.ex.filter(function(e){return e.done}).length+'/'+l.ex.length+'</b>exercises done</div></div>';
+ h+=stakeHTML()+libHTML();h+='<div class="row"><div><label>Exercise</label><input id="xn" placeholder="Pushup, running..."></div><div><label>Minutes</label><input id="xm" type="number" min="0"></div><div><label>Reps from</label><input id="xa" type="number" min="0"></div><div><label>to</label><input id="xb" type="number" min="0"></div><button class="btn" onclick="addEx()">Add</button></div>';
+ h+=l.ex.length?l.ex.map(function(e,i){return '<div class="item'+(e.done?' done':'')+'"><input type="checkbox" style="width:22px" '+(e.done?'checked':'')+' onchange="togEx('+i+')" aria-label="done"><div class="g">'+esc(e.n)+' <span class="note">'+e.min+' min'+(e.a||e.b?', reps '+e.a+' to '+e.b:'')+'</span></div><button class="x" onclick="delEx('+i+')" aria-label="remove">×</button></div>'}).join(''):'<p class="note">No evidence yet. Add today’s first exercise.</p>';
+ return h}
+function addEx(){var n=v('xn');if(!n)return;log(today()).ex.push({n:n,min:+v('xm')||0,a:+v('xa')||0,b:+v('xb')||0,done:false});save();render()}
+function togEx(i){var L=log(today()),e=L.ex[i];e.done=!e.done;save();render();if(e.done&&L.ex.every(function(x){return x.done}))boom();chk()}
+function delEx(i){log(today()).ex.splice(i,1);save();render()}
+function waterHTML(){
+ var l=log(today()),goal=S.waterGoal||8,n=l.water.length,now=new Date(),h='<h2>Water Watch</h2>';
+ var last=l.water.length?Math.max.apply(null,l.water):0,gap=last?Math.floor((now-last)/60000):null,hr=now.getHours();
+ if(hr>=6&&hr<=22&&(gap===null||gap>=60))h+='<div class="alert">Clue overdue: '+(gap===null?'no water logged yet today.':'last sip was '+gap+' minutes ago.')+' Drink a glass now.</div>';
+ else if(gap!==null)h+='<p class="note">Last sip '+gap+' min ago. Next one due in '+Math.max(0,60-gap)+' min.</p>';
+ h+='<div class="stats"><div><b>'+n+'/'+goal+'</b>glasses today</div></div><div class="glasses">';
+ for(var i=0;i<Math.max(goal,n);i++)h+='<span class="gl'+(i<n?' f':'')+'"></span>';
+ h+='</div><button class="btn" onclick="drink()">I drank a glass</button> <button class="btn ghost" style="color:var(--ink);border-color:var(--ink)" onclick="undrink()">Undo</button>';
+ h+='<label>Daily goal (glasses)</label><input type="number" min="1" max="20" value="'+goal+'" style="max-width:120px" onchange="S.waterGoal=+this.value||8;save();render()">';
+ h+='<h3 style="margin-top:14px">Hour by hour</h3><div class="hours">';
+ for(var k=6;k<=22;k++){var got=l.water.some(function(t){return new Date(t).getHours()===k});var past=k<=hr;h+='<div class="hr '+(got?'y':(past?'n':''))+'">'+(k%12||12)+(k<12?'am':'pm')+'</div>'}
+ return h+'</div><p class="note">Blue: water logged in that hour. Red: missed hour. Keep this tab open for reminders.</p>'}
+function drink(){log(today()).water.push(Date.now());save();render();if(glasses(today())===(S.waterGoal||8))boom();chk()}
+function undrink(){log(today()).water.pop();save();render()}
+setInterval(function(){if(S&&S.user&&tab==='water'&&!document.activeElement.matches('input'))render()},30000);
+function weightHTML(){
+ var w=S.weights,h='<h2>Weight Ledger</h2><div class="row" style="grid-template-columns:1fr 1fr auto"><div><label>Weight (kg)</label><input id="wk" type="number" step="0.1"></div><div><label>Date</label><input id="wd" type="date" value="'+today()+'"></div><button class="btn" onclick="addW()">Record</button></div>';
+ if(w.length>1){var vs=w.map(function(x){return x.kg}),mn=Math.min.apply(null,vs),mx=Math.max.apply(null,vs),r=(mx-mn)||1;
+  var pts=w.map(function(x,i){return (20+i*(560/(w.length-1)))+','+(110-(x.kg-mn)/r*90)}).join(' ');
+  h+='<svg viewBox="0 0 600 130" role="img" aria-label="Weight trend"><polyline points="'+pts+'" fill="none" stroke="#b3362c" stroke-width="3"/>'+pts.split(' ').map(function(p){var c=p.split(',');return '<circle cx="'+c[0]+'" cy="'+c[1]+'" r="4" fill="#1d1a14"/>'}).join('')+'</svg>';
+  var d=(vs[vs.length-1]-vs[0]).toFixed(1);h+='<p>Change since first entry: <b>'+(d>0?'+':'')+d+' kg</b></p>'}
+ h+=w.slice().reverse().map(function(x,i){var idx=w.length-1-i;return '<div class="item"><div class="g">'+x.d+'</div><b>'+x.kg+' kg</b><button class="x" onclick="delW('+idx+')" aria-label="remove">×</button></div>'}).join('')||'<p class="note">No entries yet.</p>';
+ return h}
+function addW(){var k=parseFloat(v('wk'));if(!(k>0))return;S.weights.push({d:v('wd')||today(),kg:k});S.weights.sort(function(a,b){return a.d<b.d?-1:1});save();render()}
+function delW(i){S.weights.splice(i,1);save();render()}
+function missionHTML(){
+ var m=S.mission;
+ if(!m||m.editing)return '<h2>New mission</h2><label>Mission name</label><input id="mn" value="'+esc(m?m.name:'Operation 30 Days')+'"><label>How many days?</label><input id="md" type="number" min="1" max="365" value="'+(m?m.days:30)+'"><label>Exercise minutes needed each day</label><input id="mm" type="number" min="1" value="'+(m?m.min:30)+'"><label>Glasses of water needed each day</label><input id="mg" type="number" min="1" value="'+(m?m.gl:8)+'"><p style="margin-top:14px"><button class="btn" onclick="startM()">Start mission today</button></p><p class="note">A day is solved when you reach both targets. Anything less is a cold case.</p>';
+ var st=new Date(m.start+'T00:00:00'),t=today(),sv=0,fl=0,cells='';
+ for(var i=0;i<m.days;i++){var d=new Date(st);d.setDate(st.getDate()+i);var k=ds(d),ok=mins(k)>=m.min&&glasses(k)>=m.gl,c;
+  if(k>t)c='u';else if(ok){c='s';sv++}else if(k<t){c='f';fl++}else c='t';
+  if(k===t&&ok)c='s t';
+  cells+='<div class="d '+c+'" style="--i:'+i+'" title="'+k+': '+mins(k)+' min, '+glasses(k)+' glasses">'+(i+1)+'</div>'}
+ var pct=Math.round(sv/m.days*100),over=ds(new Date(st.getTime()+m.days*864e5))<=t;
+ var verdict=sv===m.days?'<span class="stamp ok">Case solved</span>':(over?'<span class="stamp">Mission incomplete</span>':'');
+ return '<h2>'+esc(m.name)+'</h2><p class="note">Daily targets: '+m.min+' minutes of exercise and '+m.gl+' glasses of water. Started '+m.start+'.</p>'+verdict+
+ '<div class="stats"><div><b>'+sv+'</b>days solved</div><div><b>'+fl+'</b>cold cases</div><div><b>'+(m.days-sv-fl)+'</b>days left</div></div><div class="bar"><i style="width:'+pct+'%"></i></div><p>'+pct+'% of the mission complete. Today: '+mins(t)+'/'+m.min+' min, '+glasses(t)+'/'+m.gl+' glasses.</p><div class="days">'+cells+'</div>'+
+ '<p style="margin-top:14px"><button class="btn ghost" style="color:var(--ink);border-color:var(--ink)" onclick="S.mission.editing=true;render()">New mission</button></p>'}
+function startM(){S.mission={name:v('mn')||'Mission',days:Math.max(1,+v('md')||30),min:+v('mm')||30,gl:+v('mg')||8,start:today()};save();render()}
+function ring(val,max,label,sub,col){var C=2*Math.PI*44,p=Math.min(1,max?val/max:0);return '<div class="rw"><svg viewBox="0 0 110 110" width="104" height="104"><circle cx="55" cy="55" r="44" class="bg"/><circle cx="55" cy="55" r="44" class="p" style="stroke:'+col+';color:'+col+';--c:'+C.toFixed(1)+';--o:'+(C*(1-p)).toFixed(1)+';stroke-dasharray:'+C.toFixed(1)+'" transform="rotate(-90 55 55)"/><text x="55" y="64" text-anchor="middle" class="rt">'+val+'</text></svg><div>'+label+'<br><small>'+sub+'</small></div></div>'}
+function streak(){var n=0,d=new Date();if(!(mins(ds(d))>0))d.setDate(d.getDate()-1);while(mins(ds(d))>0){n++;d.setDate(d.getDate()-1)}return n}
+function rank(n){return n>=14?'Sherlock':n>=7?'Inspector':n>=3?'Detective':'Rookie'}
+document.addEventListener('pointermove',function(e){var r=document.documentElement.style;r.setProperty('--mx',e.clientX+'px');r.setProperty('--my',e.clientY+'px')});
+
+var T0=0,TI=null;
+function fmt(ms){var s=Math.floor(ms/1000),m=Math.floor(s/60);return (m<10?'0':'')+m+':'+(s%60<10?'0':'')+(s%60)}
+var LINES=['Chief: the case won’t solve itself.','Every rep is a clue. Collect them.','Stay hydrated. Sharp minds need water.','The suspect today: your excuses.','Small steps crack the biggest cases.','Alibi check: did you move today?','Results leave traces. Keep going.'];
+function briefHTML(){var t=LINES[Math.floor(Date.now()/864e5)%LINES.length];return '<p class="brief" style="--n:'+t.length+'">'+esc(t)+'</p>'}
+function stakeHTML(){return '<div class="stake"><div class="clock" id="stk">'+(T0?fmt(Date.now()-T0):'00:00')+'</div><button class="btn'+(T0?' on':'')+'" onclick="stake(this)">'+(T0?'End stakeout and log it':'Start stakeout timer')+'</button><span class="note">Times a workout and logs it as done.</span></div>'}
+function stake(b){if(T0){var m=Math.max(1,Math.round((Date.now()-T0)/60000)),x=document.getElementById('xn'),nm=(x&&x.value.trim())||'Workout';log(today()).ex.push({n:nm,min:m,a:0,b:0,done:true});T0=0;clearInterval(TI);save();render()}else{T0=Date.now();b.textContent='End stakeout and log it';b.className='btn on';TI=setInterval(function(){var e=document.getElementById('stk');if(e&&T0)e.textContent=fmt(Date.now()-T0)},1000)}}
+function av(sz){var u=S.user;return u.pic?'<img class="av" style="--s:'+sz+'px" src="'+u.pic+'" alt="Profile photo">':'<div class="av" style="--s:'+sz+'px">'+esc((u.name||'?').charAt(0).toUpperCase())+'</div>'}
+function pic(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas');c.width=c.height=160;var q=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-q)/2,(im.height-q)/2,q,q,0,0,160,160);S.user.pic=c.toDataURL('image/jpeg',.82);save();render()};im.src=r.result};r.readAsDataURL(f)}
+function maxStreak(){var a=Object.keys(S.logs).filter(function(d){return mins(d)>0}).sort(),b=0,c=0,p=null;a.forEach(function(d){var t=new Date(d+'T00:00:00').getTime();c=(p!==null&&Math.round((t-p)/864e5)===1)?c+1:1;p=t;if(c>b)b=c});return b}
+function solvedAll(){var m=S.mission;if(!m||m.editing)return false;var st=new Date(m.start+'T00:00:00');for(var i=0;i<m.days;i++){var d=new Date(st);d.setDate(st.getDate()+i);var k=ds(d);if(!(mins(k)>=m.min&&glasses(k)>=m.gl))return false}return true}
+function totals(){var sd=Object.keys(S.logs);return{act:sd.filter(function(d){return mins(d)>0}).length,min:sd.reduce(function(a,d){return a+mins(d)},0),gl:sd.reduce(function(a,d){return a+glasses(d)},0),sd:sd}}
+function medals(){var T=totals();return [['search','First Clue','Finish your first exercise',T.act>0],['droplet','Hydrated Witness','Reach your daily water goal',T.sd.some(function(d){return glasses(d)>=(S.waterGoal||8)})],['shield','Iron Alibi','7 active days in a row',maxStreak()>=7],['timer','Ten-Hour Tail','600 exercise minutes in total',T.min>=600],['scale','Scale Keeper','Record your weight 3 times',S.weights.length>=3],['book','Night Notes','Write 5 notebook entries',Object.keys(S.notes||{}).length>=5],['trophy','Case Closed','Solve every day of a mission',solvedAll()]]}
+function profileHTML(){
+ var u=S.user,T=totals(),w=S.weights,n=streak(),nx=n>=14?0:n>=7?14:n>=3?7:3,since=Math.max(1,Math.floor((new Date(today())-new Date(u.joined))/864e5)+1),ms=medals(),mx=1,bars='',D=['S','M','T','W','T','F','S'],arr=[];
+ for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var k=ds(d),m=mins(k);arr.push([D[d.getDay()],m]);if(m>mx)mx=m}
+ arr.forEach(function(a,i){bars+='<div class="col"><span>'+(a[1]||'')+'</span><i'+(i===6?' class="td"':'')+' style="--i:'+i+';height:'+Math.max(4,a[1]/mx*100)+'%"></i><span>'+a[0]+'</span></div>'});
+ var h='<div class="idcard">'+av(110)+'<div><span class="note">Fitness Detective Agency</span><h3>'+esc(u.name)+'</h3><div class="idn">'+u.id+'</div><div class="note">Agent since '+u.joined+'. Day '+since+' on the case.</div><div class="chips" style="margin-top:8px">'+bmiChip()+'<span class="chip">Level '+LV().l+'</span></div></div></div><div class="xp"><i style="width:'+LV().p+'%"></i></div><p class="note" style="margin:4px 0 12px">XP '+LV().x+'. Next level at '+LV().n+' XP.</p>';
+ h+='<div class="chips" style="margin-bottom:10px"><span class="chip">Rank: '+rank(n)+'</span><span class="chip">'+ico('flame',15)+' '+n+' day streak</span></div>';
+ if(nx)h+='<p class="note" style="margin:0">'+(nx-n)+' more active day'+(nx-n>1?'s':'')+' in a row to reach the next rank.</p><div class="bar"><i style="width:'+Math.round(n/nx*100)+'%"></i></div>';
+ h+='<div class="stats" style="margin-top:14px"><div><b>'+T.act+'</b>active days</div><div><b>'+T.min+'</b>total minutes</div><div><b>'+T.gl+'</b>glasses</div><div><b>'+(w.length?w[w.length-1].kg:'-')+'</b>kg now</div></div>';
+ h+='<h3>Last 7 days (minutes)</h3><div class="wk">'+bars+'</div>';
+ h+='<h3>Medals</h3><div class="medals">'+ms.map(function(m,i){return '<div class="medal'+(m[3]?'':' lock')+'" style="--i:'+i+'"><span class="e">'+ico(m[3]?m[0]:'lock',34)+'</span><b>'+m[1]+'</b><small>'+m[2]+'</small></div>'}).join('')+'</div>';
+ h+='<h3>Edit profile</h3><div class="pf"><div><label>Name</label><input id="pn" value="'+esc(u.name)+'"></div><div><label>Phone</label><input id="pp" value="'+esc(u.phone)+'"></div><div><label>Age</label><input id="pa" type="number" value="'+u.age+'"></div><div><label>Height (cm)</label><input id="ph" type="number" value="'+(S.height||'')+'"></div></div><p id="perr" style="color:var(--red);margin:8px 0;min-height:1.4em"></p><button class="btn" onclick="saveProf()">Save profile</button> <label class="btn ghost" style="display:inline-block;margin:0">Change photo<input type="file" accept="image/*" hidden onchange="pic(this)"></label>'+(u.pic?' <button class="btn ghost" onclick="S.user.pic=null;save();render()">Remove photo</button>':'')+'<p class="note">Gmail: '+esc(u.email)+'. Your ID cannot be changed.</p>';
+ return h}
+function saveProf(){var n=v('pn'),p=v('pp'),a=parseInt(v('pa'),10),e=document.getElementById('perr');if(!n)return e.textContent='Name cannot be empty.';if(!/^[+0-9\s-]{7,16}$/.test(p))return e.textContent='Enter a valid phone number.';if(!(a>=5&&a<=110))return e.textContent='Enter a valid age.';S.user.name=n;S.user.phone=p;S.user.age=a;var ht=parseFloat(document.getElementById('ph').value);if(ht>=50&&ht<=260)S.height=ht;save();render()}
+function notesHTML(){var N=S.notes=S.notes||{},d=today(),h='<h2>Case Notebook</h2><p class="note">Field notes: what worked, what hurt, what changes tomorrow.</p><textarea id="nt" placeholder="Today’s observations...">'+esc(N[d]||'')+'</textarea><p><button class="btn" onclick="saveNote()">Save today’s entry</button></p>';
+ var ks=Object.keys(N).filter(function(k){return k!==d}).sort().reverse();
+ return h+(ks.length?ks.map(function(k){return '<div class="entry"><b class="tw">'+k+'</b><p>'+esc(N[k]).replace(/\n/g,'<br>')+'</p></div>'}).join(''):'<p class="note">Past entries will appear here.</p>')}
+function saveNote(){var t=document.getElementById('nt').value.trim();if(t)S.notes[today()]=t;else delete S.notes[today()];save();render()}
+
+var CH=null,busy=false;
+var SYS='You are "Chief", an upbeat detective-themed fitness coach inside a fitness tracker app. Reply in the language the user writes in; if they write Bengali in Latin letters, reply the same way. Keep replies under 120 words, practical, with a light detective voice used sparingly. Base advice on the tracker data given. Give general fitness and hydration guidance only: no medical diagnosis, no extreme diets or crash weight loss, and suggest seeing a doctor for pain, dizziness or any health condition. If the user is under 18, keep advice conservative and age appropriate.';
+function mstat(){var m=S.mission;if(!m||m.editing)return 'no mission set';var st=new Date(m.start+'T00:00:00'),sv=0,fl=0,t=today();for(var i=0;i<m.days;i++){var d=new Date(st);d.setDate(st.getDate()+i);var k=ds(d);if(k>t)break;if(mins(k)>=m.min&&glasses(k)>=m.gl)sv++;else if(k<t)fl++}return m.name+': '+m.days+' days from '+m.start+', daily target '+m.min+' min and '+m.gl+' glasses, '+sv+' days solved, '+fl+' days missed'}
+function ctx(){var t=today(),l=log(t),wk=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);wk.push(mins(ds(d)))}
+ return 'Name '+S.user.name+', age '+S.user.age+'. Today '+t+': '+mins(t)+' exercise minutes, '+glasses(t)+' glasses of water (goal '+(S.waterGoal||8)+'). Exercises today: '+(l.ex.map(function(e){return e.n+' '+e.min+'min'+(e.done?' done':' not done')}).join(', ')||'none')+'. Streak '+streak()+' days. Minutes over last 7 days (oldest first): '+wk.join(', ')+'. Recent weights: '+(S.weights.slice(-5).map(function(w){return w.d+' '+w.kg+'kg'}).join(', ')||'none')+'. Mission: '+mstat()+'.'}
+function bub(m){return '<div class="msg '+(m.r==='u'?'u':'a')+'">'+esc(m.t)+'</div>'}
+function coachHTML(){if(!CH)CH=(S.coach||[]).slice();
+ return '<h2>AI Coach</h2><p class="note">Chief reads your logs and coaches you. General fitness tips only, not medical advice.</p><div class="cl" id="cl">'+(CH.length?CH.map(bub).join(''):'<div class="msg a">Agent '+esc(S.user.name)+', Chief here. Ask me for a plan, a look at your missed days, or a hydration check.</div>')+'</div><div class="sug">'+['Plan my day today','Review my week','Why do I keep missing days?','Quick snack ideas'].map(function(q){return '<button class="chip" onclick="ask(this.textContent)">'+q+'</button>'}).join('')+'</div><div class="send"><input id="ci" placeholder="Ask the Chief..." onkeydown="if(event.key===\'Enter\')ask()"><button class="btn" onclick="ask()">Send</button></div>'+(CH.length?'<p><button class="btn ghost" onclick="CH=[];S.coach=[];save();render()">Clear chat</button></p>':'')}
+async function ask(q){if(busy)return;var inp=document.getElementById('ci'),cl=document.getElementById('cl');q=(q||inp.value).trim();if(!q)return;inp.value='';
+ if(!CH.length)cl.innerHTML='';
+ CH.push({r:'u',t:q});cl.insertAdjacentHTML('beforeend',bub({r:'u',t:q}));
+ cl.insertAdjacentHTML('beforeend','<div class="msg a" id="live">Thinking<span class="dots"></span></div>');
+ var live=document.getElementById('live');cl.scrollTop=cl.scrollHeight;busy=true;
+ try{var sample=typeof claude==='undefined'?null:await claude.use('sample');
+  if(!sample){live.textContent='The AI coach works only when this page is opened inside claude.ai. Everything else works here.';CH.pop();busy=false;live.removeAttribute('id');return}
+  var hist=CH.slice(-8).map(function(m){return (m.r==='u'?'Agent: ':'Chief: ')+m.t}).join('\n');
+  var out=await sample(SYS+'\n\nTRACKER DATA:\n'+ctx()+'\n\nCONVERSATION:\n'+hist+'\n\nWrite only Chief’s next reply.',{cache:false,modelTier:'quick',onText:function(o){live.textContent=o.text;cl.scrollTop=cl.scrollHeight}});
+  var tx=((out&&out.text)||'').trim()||'No answer came back. Try again.';live.textContent=tx;CH.push({r:'a',t:tx});S.coach=CH.slice(-20);save()}
+ catch(e){live.textContent=(e&&e.code==='not_granted')?'Permission was declined, so the coach stays offline.':(e&&e.code==='rate_limited')?'Too many questions at once. Wait a moment and try again.':'The coach could not answer right now. Try again.';CH.pop()}
+ busy=false;live.removeAttribute('id')}
+
+var OPEN=false;
+function hp(pw,salt){var t=salt+pw;if(window.crypto&&crypto.subtle){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return ('0'+x.toString(16)).slice(-2)}).join('')})}var h=5381;for(var i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return Promise.resolve('x'+h)}
+function newSalt(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function lock(){OPEN=false;render(true)}
+function bad(m){var e=document.getElementById('err');if(e)e.textContent=m;var c=document.querySelector('.folder');if(c){c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake')}}
+async function signup2(){var n=v('n'),e=v('e').toLowerCase(),p=v('p'),g=parseInt(v('a'),10),w1=document.getElementById('pw1').value,w2=document.getElementById('pw2').value,er='';
+ if(!n)er='Enter your name.';else if(!/^[^\s@]+@gmail\.com$/.test(e))er='Enter a valid Gmail address (name@gmail.com).';else if(!/^[+0-9\s-]{7,16}$/.test(p))er='Enter a valid phone number.';else if(!(g>=5&&g<=110))er='Enter your age.';else if(w1.length<6)er='Password needs at least 6 characters.';else if(w1!==w2)er='The two passwords do not match.';
+ if(er)return bad(er);
+ var sl=newSalt();S={user:{name:n,email:e,phone:p,age:g,id:genId(),joined:today(),pw:{s:sl,h:await hp(w1,sl)}},logs:{},weights:[],notes:{},mission:null};OPEN=true;save();render(true)}
+function setpwHTML(){return '<div id="login" class="folder"><span class="stamp">Security check</span><h1>Protect your case file</h1><p class="note">Create a password, '+esc(S.user.name)+'. You will enter it every time you open the app.</p><label>New password (6+ characters)</label><input id="pw1" type="password" autocomplete="new-password" oninput="stre(this)"><div class="str"><i id="sb"></i></div><small class="note" id="sl"></small><label class="chk"><input type="checkbox" onchange="showpw(this)" style="width:auto"> Show passwords</label><label>Repeat password</label><input id="pw2" type="password" autocomplete="new-password" onkeydown="if(event.key===\'Enter\')setpw()"><p id="err" style="color:var(--red);min-height:1.4em;margin:8px 0"></p><button class="btn" onclick="setpw()">Lock it in</button></div>'}
+async function setpw(){var w1=document.getElementById('pw1').value,w2=document.getElementById('pw2').value;if(w1.length<6)return bad('Password needs at least 6 characters.');if(w1!==w2)return bad('The two passwords do not match.');var sl=newSalt();S.user.pw={s:sl,h:await hp(w1,sl)};OPEN=true;save();render(true)}
+function lockHTML(){var u=S.user;if(!u.pw)return setpwHTML();return '<div id="login" class="folder lockc"><div style="text-align:center">'+av(96)+'<h2 style="margin:12px 0 2px">'+greet()+', '+esc(u.name)+'</h2><p class="note">Case file locked. Enter your password.</p></div><label>Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')unlock()"><label class="chk"><input type="checkbox" onchange="showpw(this)" style="width:auto"> Show password</label><p id="err" style="color:var(--red);min-height:1.4em;margin:8px 0"></p><button class="btn" onclick="unlock()">Open case file</button><p class="note" style="margin-top:16px"><a href="#" onclick="forgot();return false" style="color:var(--brass)">Forgot password?</a></p><div id="fg"></div></div>'}
+async function unlock(){var u=S.user,pw=document.getElementById('lp').value;if(!pw)return;var h=await hp(pw,u.pw.s);if(h===u.pw.h){OPEN=true;render(true)}else bad('Wrong password. Try again.')}
+function forgot(){document.getElementById('fg').innerHTML='<p class="note" style="color:var(--red)">There is no way to recover a password. The only option is to erase everything on this device and start over.</p><button class="btn" onclick="wipe()">Erase and start over</button>'}
+function wipe(){try{localStorage.removeItem(KEY)}catch(e){}S=null;OPEN=false;render(true)}
+function chk(){var m=S.mission,t=today();if(m&&!m.editing&&mins(t)>=m.min&&glasses(t)>=m.gl&&S.cel!==t){S.cel=t;save();boom()}}
+function boom(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;var c=['#8b7bff','#4cc9f0','#3ddc97','#ff5d6c','#ffffff'],els=[];for(var i=0;i<70;i++){var e=document.createElement('i');e.className='cf';e.style.cssText='left:'+Math.random()*100+'vw;background:'+c[i%5]+';--dx:'+(Math.random()*260-130)+'px;animation-delay:'+Math.random()*.4+'s;animation-duration:'+(1.5+Math.random())+'s';document.body.appendChild(e);els.push(e)}setTimeout(function(){els.forEach(function(e){e.remove()})},3200)}
+
+var ICP={home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>',droplet:'<path d="M12 2.7s6 6.2 6 10.8a6 6 0 0 1-12 0C6 8.9 12 2.7 12 2.7z"/>',scale:'<rect x="3" y="4" width="18" height="16" rx="3.5"/><path d="M8 10a4 4 0 0 1 8 0"/><path d="m12 10 1.6-1.8"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>',book:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',bot:'<rect x="4" y="8" width="16" height="12" rx="3.5"/><path d="M12 8V5"/><circle cx="12" cy="3.8" r="1"/><circle cx="9" cy="13.5" r="1"/><circle cx="15" cy="13.5" r="1"/><path d="M9.5 17h5"/>',gauge:'<path d="M4 19a9 9 0 1 1 16 0"/><path d="m12 14 4-5"/><circle cx="12" cy="14" r="1.2"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/>',dumbbell:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4"/><path d="M12 13v4M8 20h8M9.5 17h5"/>',flame:'<path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/>',timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2h5"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',back:'<path d="M19 12H5M11 6l-6 6 6 6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'};
+function ico(n,z){return '<svg class="ico" viewBox="0 0 24 24" width="'+z+'" height="'+z+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICP[n]+'</svg>'}
+var IC={today:ico('home',22),water:ico('droplet',22),weight:ico('scale',22),mission:ico('target',22),notes:ico('book',22),coach:ico('bot',22),bmi:ico('gauge',22),profile:ico('user',22)},SH={today:'Today',water:'Water',weight:'Weight',mission:'Mission',notes:'Notes',coach:'Coach',bmi:'BMI',profile:'Profile'};
+function cube(){var q=['search','droplet','dumbbell','scale','shield','trophy'];return '<div class="scene"><div class="cube">'+q.map(function(x,i){return '<em class="f'+(i+1)+'">'+ico(x,44)+'</em>'}).join('')+'</div></div>'}
+function greet(){var h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening'}
+function stre(el){var v=el.value,c=0;if(v.length>=6)c++;if(v.length>=10)c++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))c++;if(/\d/.test(v))c++;if(/[^A-Za-z0-9]/.test(v))c++;var L=[['Too weak','#ff5577'],['Weak','#ff5577'],['Okay','#ffd23f'],['Good','#39f0a6'],['Strong','#22e4ff'],['Very strong','#22e4ff']][v?c:0],b=document.getElementById('sb');b.style.width=(v?Math.max(12,c*20):0)+'%';b.style.background=L[1];document.getElementById('sl').textContent=v?L[0]:''}
+function showpw(cb){['pw1','pw2','lp'].forEach(function(i){var e=document.getElementById(i);if(e)e.type=cb.checked?'text':'password'})}
+function LV(){var T=totals(),x=T.min+T.gl*2+Object.keys(S.notes||{}).length*10+T.act*20,l=Math.floor(Math.sqrt(x/40))+1,c=(l-1)*(l-1)*40,n=l*l*40;return{x:x,l:l,n:n,p:Math.round((x-c)/(n-c)*100)}}
+var LVLS=[[0,16,'Severe thinness','#5b6cff','Well below a healthy weight. Please talk to a doctor or dietitian.'],[16,17,'Moderate thinness','#4aa8ff','Below a healthy weight. Add nutritious food and check with a doctor.'],[17,18.5,'Mild thinness','#22e4ff','Slightly under. Eat enough protein and build strength.'],[18.5,25,'Normal','#39f0a6','Healthy range. Keep your routine going.'],[25,30,'Overweight','#ffd23f','Slightly above healthy. Daily movement and portion control help.'],[30,35,'Obese class I','#ff9a3d','Above healthy. Steady exercise and food changes help; consider a doctor’s advice.'],[35,40,'Obese class II','#ff6a4d','Well above healthy. A doctor’s guidance is recommended.'],[40,99,'Obese class III','#ff3d6e','Very high. Please see a doctor for a safe plan.']];
+function lvl(b){for(var i=0;i<7;i++)if(b<LVLS[i][1])return LVLS[i];return LVLS[7]}
+function curW(){return S.weights.length?S.weights[S.weights.length-1].kg:null}
+function bmiChip(){var b=S.height&&curW()?curW()/Math.pow(S.height/100,2):0;return b?'<span class="chip">BMI '+b.toFixed(1)+', '+lvl(b)[2]+'</span>':'<span class="chip">BMI not set</span>'}
+function pt(a,r){var t=a*Math.PI/180;return (120+r*Math.cos(t)).toFixed(1)+' '+(120-r*Math.sin(t)).toFixed(1)}
+function gauge(){var g='',B=[10,16,17,18.5,25,30,35,40,45];for(var i=0;i<8;i++){var a1=180-(B[i]-10)/35*180,a2=180-(B[i+1]-10)/35*180;g+='<path d="M'+pt(a1-.5,95)+' A95 95 0 0 1 '+pt(a2+.5,95)+'" fill="none" stroke="'+LVLS[i][3]+'" stroke-width="22" style="animation:fade .6s both;animation-delay:'+i*90+'ms"/>'}
+ return '<svg class="gz" viewBox="0 0 240 135" role="img" aria-label="BMI gauge">'+g+'<g id="nd" style="transform-origin:120px 120px;transform:rotate(-90deg);transition:transform 1.4s cubic-bezier(.2,1.5,.4,1)"><path d="M116 124L120 36L124 124Z" fill="#fff"/></g><circle cx="120" cy="120" r="10" fill="#fff"/></svg>'}
+function bmiHTML(){var w=curW();setTimeout(bmiCalc,120);return '<h2>BMI Lab</h2><p class="note">Enter height and weight. The needle shows your level on the standard adult WHO scale.</p><div class="bmiCard">'+gauge()+'<div class="pf"><div><label>Height (cm)</label><input id="bh" type="number" step="0.1" value="'+(S.height||'')+'" oninput="bmiCalc()" placeholder="170"></div><div><label>or feet</label><input id="bf" type="number" oninput="bmiCalc()" placeholder="5"></div><div><label>inches</label><input id="bi" type="number" oninput="bmiCalc()" placeholder="7"></div><div><label>Weight (kg)</label><input id="bw" type="number" step="0.1" value="'+(w||'')+'" oninput="bmiCalc()" placeholder="65"></div></div><div id="bmiOut"></div><button class="btn" style="margin-top:14px" onclick="bmiSave()">Save height and weight</button><p id="bmsg" class="note"></p></div>'}
+function bmiRead(){var h=parseFloat(document.getElementById('bh').value)||((parseFloat(document.getElementById('bf').value)||0)*30.48+(parseFloat(document.getElementById('bi').value)||0)*2.54);return{h:h,w:parseFloat(document.getElementById('bw').value)}}
+function bmiCalc(){var o=document.getElementById('bmiOut'),nd=document.getElementById('nd');if(!o||!nd)return;var r=bmiRead();if(!(r.h>=50&&r.w>0)){o.innerHTML='<p class="note">Fill in height and weight to see your BMI.</p>';nd.style.transform='rotate(-90deg)';return}
+ var m=r.h/100,b=r.w/(m*m),L=lvl(b),lo=18.5*m*m,hi=24.9*m*m,adv=b<18.5?'Gain about '+(lo-r.w).toFixed(1)+' kg to reach the normal range.':b>=25?'Lose about '+(r.w-hi).toFixed(1)+' kg to reach the normal range.':'You are inside the normal range.';
+ nd.style.transform='rotate('+((Math.min(45,Math.max(10,b))-10)/35*180-90)+'deg)';
+ o.innerHTML='<div class="bnum" style="color:'+L[3]+'">'+b.toFixed(1)+'</div><span class="blv" style="background:'+L[3]+'">'+L[2]+'</span><p style="text-align:center;margin:6px 0">'+L[4]+'</p><p class="note" style="text-align:center">Healthy weight for your height: '+lo.toFixed(1)+' to '+hi.toFixed(1)+' kg. '+adv+'</p>'+(S.user.age<20?'<p class="note" style="text-align:center">Under 20, BMI needs age and sex based charts, so ask a doctor to read it.</p>':'')+'<div class="lvls">'+LVLS.map(function(x){return '<span class="lv'+(x===L?' now':'')+'" style="--c:'+x[3]+'">'+x[2]+' <small>'+(x[0]===0?'under '+x[1]:x[1]>=99?x[0]+'+':x[0]+' to '+x[1])+'</small></span>'}).join('')+'</div>'}
+function bmiSave(){var r=bmiRead(),m=document.getElementById('bmsg');if(!(r.h>=50&&r.h<=260&&r.w>0&&r.w<500)){m.textContent='Enter a valid height and weight first.';return}S.height=+r.h.toFixed(1);if(curW()!==r.w){S.weights.push({d:today(),kg:+r.w.toFixed(1)});S.weights.sort(function(a,b){return a.d<b.d?-1:1})}save();m.textContent='Saved. Your profile now shows this BMI.'}
+var LASTT=null;
+document.addEventListener('pointermove',function(e){var R=document.documentElement.style,nx=e.clientX/innerWidth-.5,ny=e.clientY/innerHeight-.5;R.setProperty('--px',nx);R.setProperty('--py',ny);var el=e.target.closest&&e.target.closest('.idcard,.medal,.stake,.bmiCard,.fc,#login');if(LASTT&&LASTT!==el){LASTT.style.setProperty('--rx','0deg');LASTT.style.setProperty('--ry','0deg')}LASTT=el;if(el){var r=el.getBoundingClientRect(),k=el.id==='login'?5:10;el.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*k+'deg');el.style.setProperty('--rx',-((e.clientY-r.top)/r.height-.5)*k+'deg')}});
+document.body.insertAdjacentHTML('beforeend','<div class="orb" style="--c:#7c5cff;--d:60;width:130px;height:130px;left:-30px;top:14%"></div><div class="orb" style="--c:#22e4ff;--d:-40;width:80px;height:80px;right:6%;top:42%;animation-delay:-3s"></div><div class="orb" style="--c:#ff4fd8;--d:30;width:56px;height:56px;left:12%;bottom:18%;animation-delay:-6s"></div>');
+
+var LAND=true;
+function start(){LAND=false;if(location.hash.slice(1)!=='join')location.hash='join';render(true);scrollTo(0,0)}
+function backLand(){LAND=true;if(location.hash.slice(1)!=='welcome')location.hash='welcome';render(true)}
+var FEAT=[['dumbbell','Daily exercise log','Add each exercise with minutes and reps, tick it done and watch your daily total grow.'],['droplet','Water Watch','Count your glasses, see every hour of the day, and get an alert when an hour passes without water.'],['scale','Weight ledger','Record your weight and see the trend line and your total change.'],['target','Mission mode','Pick a target like 30 days, set daily goals and see which days you solved or missed.'],['gauge','BMI Lab','Enter height and weight. An animated gauge shows your level, healthy range and advice.'],['bot','AI Coach','Chat with Chief, a coach that reads your logs and gives plans and tips.'],['book','Case Notebook','Write daily field notes about what worked and what to change tomorrow.'],['user','Agent profile','Photo, ID card, rank, level, XP bar, streaks and medals in one place.']];
+var STEPS=[['Create your agent profile','Add your name, Gmail, phone, age and a password. You get your own 8 to 10 digit Detective ID.'],['Log the evidence daily','Exercises, glasses of water, weight and notes. Rings and streaks update instantly.'],['Close the case','Finish your mission days, earn medals, level up and reach your target.']];
+function landHTML(){return '<div class="hero"><div class="tag">'+ico('shield',16)+' Private, free and on your device</div>'+cube()+'<h1>Solve the case of a <span class="gt">fitter you</span></h1><p class="sub">Fitness Detective Agency turns your daily workouts, water, weight and goals into a case file. Log the evidence every day and close the mission.</p><button class="btn big" onclick="start()">Open your case file '+ico('arrow',18)+'</button></div>'+
+ '<h2 class="sh">What is inside</h2><div class="fg">'+FEAT.map(function(f,i){return '<div class="fc" style="--i:'+i+'"><div class="ib">'+ico(f[0],24)+'</div><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div>'}).join('')+'</div>'+
+ '<h2 class="sh">How it works</h2><div class="steps">'+STEPS.map(function(t,i){return '<div class="st" style="--i:'+i+'"><div class="sn">'+(i+1)+'</div><div><b>'+t[0]+'</b><span>'+t[1]+'</span></div></div>'}).join('')+'</div>'+
+ '<div class="folder" style="margin-top:28px;text-align:center"><h3>Ready, detective?</h3><p class="note">Your logs, profile and password lock stay on this device. The AI Coach works only inside claude.ai and sends your chat and a summary of your logs to Claude to answer you.</p><button class="btn big" onclick="start()">Start now '+ico('arrow',18)+'</button></div>'}
+
+var LIB=[['Pushups','dumbbell',5,10,20],['Squats','dumbbell',5,15,25],['Sit-ups','dumbbell',5,15,30],['Lunges','dumbbell',5,10,20],['Plank','timer',3,0,0],['Yoga stretch','target',15,0,0],['Running','flame',20,0,0],['Walking','flame',30,0,0],['Cycling','flame',20,0,0],['Skipping rope','flame',10,0,0],['Jumping jacks','flame',5,30,60],['Burpees','flame',5,8,15]];
+function libHTML(){return '<h3 style="margin:4px 0 0;font-size:16px">Quick add workouts</h3><p class="note" style="margin:2px 0 6px">Tap a workout to add it to today. You can tick it done below.</p><div class="lib">'+LIB.map(function(x,i){return '<button class="chip" onclick="qadd('+i+')">'+ico(x[1],16)+' '+x[0]+' <small>'+x[2]+' min</small></button>'}).join('')+'</div>'}
+function qadd(i){var x=LIB[i];log(today()).ex.push({n:x[0],min:x[2],a:x[3],b:x[4],done:false});save();render()}
+
+var PREV='today',TABS=['today','water','weight','mission','notes','coach','bmi','profile'];
+function goBack(){go(PREV&&PREV!==tab?PREV:'today')}
+addEventListener('hashchange',function(){var h=location.hash.slice(1);
+ if(h==='welcome'||h==='join'){var l=h==='welcome';if(LAND!==l){LAND=l;render(true)}return}
+ var t=h===''?'today':h;if(TABS.indexOf(t)>-1&&t!==tab){PREV=tab;tab=t;render(true)}});
+(function(){var h=location.hash.slice(1);if(TABS.indexOf(h)>-1)tab=h;else if(h==='join')LAND=false})();
+render(true);
+</script><script>if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})</script></body></html>
